@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+<<<<<<< HEAD
 use App\Students;
+=======
+use App\personal_info;
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
 use App\Discipline;
 use App\Financials;
 use App\Exam1;
@@ -19,7 +23,11 @@ class USSDController extends Controller
 		$text        = $_POST["text"];
 
 		$user_responses = explode('*', $text);
+<<<<<<< HEAD
 		$Students = Students::all();
+=======
+		$personal_info = personal_info::all();
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
 
 		if ($text == "") {
 		    // This is the first request. Note how we start the response with CON
@@ -27,7 +35,11 @@ class USSDController extends Controller
 		    $response .= "Please enter your child's registration number\n";
 
 		} else if (((count($user_responses)) == 1) && ($user_responses[0] !== "")){
+<<<<<<< HEAD
 		    foreach ($Students as $student) {
+=======
+		    foreach ($personal_info as $student) {
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
 	            if ($user_responses[0] == $student->reg_no){
 	                $response = "CON Enter service number: \n";
 		    		$response .= "(Use the parent phone number submitted during student registration) \n";
@@ -39,7 +51,11 @@ class USSDController extends Controller
 		    
 
 		} else if (((count($user_responses)) == 2) && ($user_responses[1] !== "")){
+<<<<<<< HEAD
 			foreach ($Students as $student) {
+=======
+			foreach ($personal_info as $student) {
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
 	            if ($user_responses[1] == $student->parent_phone){
 				    $response = "CON Please select an option: \n";
 				    $response .= "1. Discipline status \n";

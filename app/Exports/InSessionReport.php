@@ -1,7 +1,11 @@
 <?php
 namespace App\Exports;
 
+<<<<<<< HEAD
 use App\Students;
+=======
+use App\personal_info;
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -24,7 +28,11 @@ class InSessionReport implements FromCollection, ShouldAutoSize, WithHeadings
 
     public function collection()
     {	
+<<<<<<< HEAD
         $disciplines = Students::all('reg_no', 'student_name','gender','date_of_birth', 'date_of_admission', 'course', 'parent_name', 'parent_phone');
+=======
+        $disciplines = personal_info::all('reg_no', 'student_name','gender','date_of_birth', 'date_of_admission', 'course', 'parent_name', 'parent_phone');
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
 
         return $disciplines;
     }

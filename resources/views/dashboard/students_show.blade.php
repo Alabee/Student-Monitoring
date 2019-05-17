@@ -26,7 +26,11 @@
 
 	<table class="table table-striped">
 	    <tr>
+<<<<<<< HEAD
 	    	<th>Reg No.</th>
+=======
+	    	<th>Registration</th>
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
 	        <th>Student name</th>
 	        <th>Gender</th>
 	        <th>Date of Birth</th>

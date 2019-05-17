@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+<<<<<<< HEAD
 use App\Students;
+=======
+use App\personal_info;
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
 use App\Financials;
 use App\Discipline;
 use App\Update;
@@ -29,12 +33,34 @@ class DashboardController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         $students = Students::all(); 
 
         $statistics = array(
             'in_session' => 1,
             'suspended' => 5,
             'expelled' => 6
+=======
+        $students = personal_info::all(); 
+        $disciplines = Discipline::all();
+
+        $in_session = $disciplines->filter(function($discipline){
+            return $discipline->status == "In session";
+        });
+
+        $suspended = $disciplines->filter(function($discipline){
+            return $discipline->status == "Suspended";
+        });
+        
+        $expelled = $disciplines->filter(function($discipline){
+            return $discipline->status == "Expelled";
+        });
+
+        $statistics = array(
+            'in_session' => count($in_session),
+            'suspended' => count($suspended),
+            'expelled' => count($expelled)
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
              );
 
         return view('dashboard.dashboard')->with('students', $students)->with('statistics', $statistics);
@@ -42,7 +68,11 @@ class DashboardController extends Controller
 
     public function students_show()
     {
+<<<<<<< HEAD
         $students = Students::all(); 
+=======
+        $students = personal_info::all(); 
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
         return view('dashboard.students_show')->with('students', $students);
     }
 
@@ -55,7 +85,11 @@ class DashboardController extends Controller
     {
         //validate that every field is filled before submitting
         $this->validate($request,[
+<<<<<<< HEAD
             'reg_no' => 'required|unique:students',
+=======
+            'reg_no' => 'required',
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
             'student_name' => 'required',
             'gender' => 'required',
             'date_of_birth' => 'required',
@@ -65,6 +99,7 @@ class DashboardController extends Controller
             'parent_phone' => 'required'
         ]);
  
+<<<<<<< HEAD
         $student = new Students;
 
         $student->reg_no = $request->input('reg_no');
@@ -78,6 +113,51 @@ class DashboardController extends Controller
 
 
         $student->save();
+=======
+        $personal_info = new personal_info;
+        $financial = new Financials;
+        $discipline = new Discipline;
+        $results = new Exam1;
+
+        $personal_info->reg_no = $request->input('reg_no');
+        $personal_info->student_name = $request->input('student_name');
+        $personal_info->gender = $request->input('gender');
+        $personal_info->date_of_birth = $request->input('date_of_birth');
+        $personal_info->date_of_admission = $request->input('date_of_admission');
+        $personal_info->course = $request->input('course');
+        $personal_info->parent_name = $request->input('parent_name');
+        $personal_info->parent_phone = $request->input('parent_phone');
+
+        #creates financial record of newly added student
+        $financial->reg_no = $personal_info->reg_no;
+        $financial->student_name = $personal_info->student_name;
+        $financial->amount_to_be_paid = 0;
+        $financial->amount_paid = 0;
+        $financial->balance = 0;
+        $financial->save();
+
+        #creates discipline record of newly added student
+        $discipline->reg_no = $personal_info->reg_no;
+        $discipline->student_name = $personal_info->student_name;
+        $discipline->status = "In session";
+        $discipline->save();
+
+        #creates exa results for student
+        $results->reg_no = $personal_info->reg_no;
+        $results->student_name = $personal_info->student_name;
+        $results->unit_code1 = "N/A";
+        $results->unit_code2 = "N/A";
+        $results->unit_code3 = "N/A";
+        $results->unit_code4 = "N/A";
+        $results->unit_code5 = "N/A";
+        $results->unit_code6 = "N/A";
+        $results->unit_code7 = "N/A";
+        $results->unit_code8 = "N/A";
+        $results->unit_code9 = "N/A";
+        $results->save();
+
+        $personal_info->save();
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
 
 
 
@@ -88,7 +168,11 @@ class DashboardController extends Controller
         $q = $request->input('q');
 
         $reg_no = str_replace('-', '/', $q);
+<<<<<<< HEAD
         $students = Students::all();
+=======
+        $students = personal_info::all();
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
 
         foreach ($students as $student) {
             if ($student->reg_no == $reg_no){
@@ -101,7 +185,11 @@ class DashboardController extends Controller
 
     public function student_edit($id)
     {
+<<<<<<< HEAD
         $student = Students::findOrFail($id);
+=======
+        $student = personal_info::findOrFail($id);
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
         return view('dashboard.student_edit')->with('student', $student);
     }
 
@@ -119,6 +207,7 @@ class DashboardController extends Controller
             'parent_phone' => 'required'
         ]);
 
+<<<<<<< HEAD
         $Students = Students::find($id);
 
         $Students->reg_no = $request->input('reg_no');
@@ -131,13 +220,33 @@ class DashboardController extends Controller
         $Students->parent_phone = $request->input('parent_phone');
 
         $Students->save();
+=======
+        $personal_info = personal_info::find($id);
+
+        $personal_info->reg_no = $request->input('reg_no');
+        $personal_info->student_name = $request->input('student_name');
+        $personal_info->gender = $request->input('gender');
+        $personal_info->date_of_birth = $request->input('date_of_birth');
+        $personal_info->date_of_admission = $request->input('date_of_admission');
+        $personal_info->course = $request->input('course');
+        $personal_info->parent_name = $request->input('parent_name');
+        $personal_info->parent_phone = $request->input('parent_phone');
+
+        $personal_info->save();
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
         return redirect('student')->with('success', 'Student personal information updated successfully');
     }
 
     public function student_search(Request $request){
+<<<<<<< HEAD
         $Students = Students::all();
 
         foreach ($Students as $student) {
+=======
+        $personal_info = personal_info::all();
+
+        foreach ($personal_info as $student) {
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
             if ($request->input('search-item') == $student->reg_no){
                 return view('dashboard.student_search')->with('student', $student);
             }
@@ -145,4 +254,341 @@ class DashboardController extends Controller
     }
 
 
+<<<<<<< HEAD
+=======
+    public function in_session(){
+        $status = 'In session';
+        $url = 'in_session';
+        $students_all = personal_info::all();
+        $disciplines = Discipline::all();
+        $in_session = $disciplines->filter(function($discipline){
+            return $discipline->status == "In session";
+        });
+
+        return view('dashboard.analytics')->with('statuses', $in_session)->with('students', $students_all)->with('status', $status)->with('url', $url);
+    }
+
+    public function suspended(){
+        $status = 'Suspended';
+        $students_all = personal_info::all();
+        $disciplines = Discipline::all();
+        $in_session = $disciplines->filter(function($discipline){
+            return $discipline->status == "Suspended";
+        });
+
+        return view('dashboard.analytics')->with('statuses', $in_session)->with('students', $students_all)->with('status', $status);      
+    }
+
+    public function expelled(){
+        $status = 'Expelled';
+        $students_all = personal_info::all();
+        $disciplines = Discipline::all();
+        $in_session = $disciplines->filter(function($discipline){
+            return $discipline->status == "Expelled";
+        });
+
+        return view('dashboard.analytics')->with('statuses', $in_session)->with('students', $students_all)->with('status', $status);      
+    }
+
+
+
+    //Exam functions
+    public function exams_results(){
+        $exam1 = Exam1::all();
+        return view('dashboard.results_view')->with('exam1', $exam1);
+    }
+
+     public function exams_edit($id){
+        $student = Exam1::findOrFail($id);
+        return view('dashboard.results_edit')->with('student', $student);
+    }   
+
+    public function exams_update(Request $request, $id){
+        $results = Exam1::findOrFail($id);
+        $results->reg_no = $request->input('reg_no');
+        $results->student_name = $request->input('student_name');
+        $results->unit_code1 = $request->input('unit_code1');
+        $results->unit_code2 = $request->input('unit_code2');
+        $results->unit_code3 = $request->input('unit_code3');
+        $results->unit_code4 = $request->input('unit_code4');
+        $results->unit_code5 = $request->input('unit_code5');
+        $results->unit_code6 = $request->input('unit_code6');
+        $results->unit_code7 = $request->input('unit_code7');
+        $results->unit_code8 = $request->input('unit_code8');
+        $results->unit_code9 = $request->input('unit_code9');
+        $results->save();
+
+        return redirect('/exams')->with('success', 'Results updated successfully');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+    public function exam_add(){
+        return view('dashboard.exam_add');
+    }
+
+    public function exam_store(Request $request){
+        //store added exam to exams table
+        $this->validate($request, [
+            'exam_title' =>'required',
+            'units_taken' => 'required'
+        ]);
+        $exam = new Exams;
+        $exam->exam_title = $request->input('exam_title');
+        $exam->units_taken = $request->input('units_taken');
+
+        $exam->unit_code1 = "N/A";
+        $exam->unit_code2 = "N/A";
+        $exam->unit_code3 = "N/A";
+        $exam->unit_code4 = "N/A";
+        $exam->unit_code5 = "N/A";
+        $exam->unit_code6 = "N/A";
+        $exam->unit_code7 = "N/A";
+        $exam->unit_code8 = "N/A";
+        $exam->unit_code9 = "N/A";
+
+        $exam->save();
+
+        return redirect('/exams/add/units/'.$exam->id)->with('success', 'Exam successfully added');
+
+
+    }
+
+    public function exam_units_add($id){
+        $exam = Exams::findOrFail($id);
+        $units_taken = (int)$exam->units_taken;
+        return view('dashboard.exam_units_add')->with('limit', $units_taken)->with('exam', $exam);
+    }
+
+    public function exam_units_store(Request $request, $id){
+        $exam = Exams::findOrFail($id);
+
+        $exam->unit_code1 = $request->input('unit_code1');
+        $exam->unit_code2 = $request->input('unit_code2');
+        $exam->unit_code3 = $request->input('unit_code3');
+        $exam->unit_code4 = $request->input('unit_code4');
+        $exam->unit_code5 = $request->input('unit_code5');
+        $exam->unit_code6 = $request->input('unit_code6');
+        $exam->unit_code7 = $request->input('unit_code7');
+        $exam->unit_code8 = $request->input('unit_code8');
+        $exam->unit_code9 = $request->input('unit_code9');
+
+        /**
+        $table_name = str_replace(' ', '_', $exam->exam_title);
+        //create table of exam added
+        $query = 'CREATE TABLE' .$table_name(reg_no var_char(50),
+                student_name var_char(50),
+                $exam->unit_code1 int(10),
+                $exam->unit_code2 int(10),
+                $exam->unit_code3 int(10),
+                $exam->unit_code4 int(10),
+                $exam->unit_code5 int(10),
+                $exam->unit_code6 int(10),
+                $exam->unit_code7 int(10),
+                $exam->unit_code8 int(10),
+                $exam->unit_code9 int(10),
+
+    );
+        $create_table = DB::statement($query);
+**/
+        $exam->save();
+        return redirect('/exams')->with('success', 'Units successfully added!');
+
+    }
+
+    public function delete_exam($id){
+        $exam = Exams::findOrFail($id);
+        $exam->delete();
+        return redirect('exams')->with('error', 'Exam discarded');
+    }
+
+    public function exam_restrictDuplicate(Request $request){
+        $q = $request->input('q');
+
+        $reg_no = str_replace('-', ' ', $q);
+        $exams = Exams::all();
+        foreach ($exams as $exam) {
+            if ($exam->exam_title == $reg_no){
+                return "Exam title already exists";
+                break;
+
+            }
+        }
+    }
+
+
+
+
+    public function financials_show(){
+        $financials = Financials::all();
+        return view('dashboard.financials_show')->with('financials', $financials);
+    }
+
+    public function financials_add(){
+        $students = personal_info::all();
+        $financials = Financials::all();
+        return view('dashboard.financials_add')->with('students', $students)->with('financials', $financials);
+    }
+
+    public function financials_store(Request $request){
+        $this->validate($request, [
+            'reg_no' => 'required',
+            'student_name' => 'required',
+            'amount_to_be_paid' => 'required',
+            'amount_paid' => 'required',
+            'balance' => 'required'
+        ]);
+
+        #stores student->id submitted through registration filled and uses it to get student from student(personal_info) table
+        $studentID = $request->input('reg_no');
+
+        #student with corresponding id is retrieved so that their registration number can be retrieved for storage
+        $student = personal_info::findOrFail($studentID);
+
+        $financial = new Financials;
+        $financial->reg_no = $student->reg_no;
+        $financial->student_name = $request->input('student_name');
+        $financial->amount_to_be_paid = $request->input('amount_to_be_paid');
+        $financial->amount_paid = $request->input('amount_paid');
+        $financial->balance = $request->input('balance');
+        $financial->save();
+
+        return redirect('/financials')->with('success', "Financials successfully added");
+
+    }
+
+    public function financials_edit(Request $request, $id){
+        $financial = Financials::findOrFail($id);
+        return view('dashboard.financials_edit')->with('financial', $financial);
+    }
+
+    public function financials_update(Request $request, $id){
+        $this->validate($request, [
+            'amount_to_be_paid' => 'required',
+            'amount_paid' => 'required'
+        ]);
+
+        $financial = Financials::findOrFail($id);
+        $financial->reg_no = $request->input('reg_no');
+        $financial->student_name = $request->input('student_name');
+        $financial->amount_to_be_paid = $request->input('amount_to_be_paid');
+        $financial->amount_paid = $request->input('amount_paid');
+        $financial->balance = $request->input('balance');
+        $financial->save();
+
+        return redirect('/financials')->with('success', 'Financials successfully updated');
+    }
+
+    public function getFinancialInfo($id){
+        $student = personal_info::findOrFail($id);
+        return $student->student_name;
+    }
+
+
+
+
+    public function discipline_show(){
+        $discipline = Discipline::all();
+        return view('dashboard.discipline_show')->with('discipline', $discipline);
+    }
+
+    public function discipline_edit(Request $request, $id){
+        //Find discipline record
+        $discipline = Discipline::findOrFail($id);
+        return view('dashboard.discipline_edit')->with('discipline', $discipline);
+    }
+
+    public function discipline_update(Request $request, $id){
+        //find discipine record
+        $this->validate($request, [
+            'status' => 'required'
+        ]);
+
+        $discipline = Discipline::findOrFail($id);
+        $discipline->reg_no = $request->input('reg_no');
+        $discipline->student_name = $request->input('student_name');
+        $discipline->status = $request->input('status');
+
+        $discipline->save();
+
+        return redirect('/discipline')->with('success', 'Discipline successfully updated');
+
+
+    }
+
+    public function updates_show(){
+        $updates = Update::all();
+
+        $sent = $updates->filter(function($updates){
+            return $updates->sent == "Yes";
+        });
+
+        return view('dashboard.updates_show')->with('updates', $updates)->with('sent', $sent);
+    }
+
+    public function updates_add(){
+        return view('dashboard.update_add');
+    }
+
+    public function updates_store(Request $request){
+        $this->validate($request, [
+            'title' => 'required',
+            'category' => 'required',
+            'message' => 'required'
+        ]);
+
+        $update = new Update;
+        $update->title = $request->input('title');
+        $update->message = $request->input('message');
+        $update->category = $request->input('category');
+        $update->sent = "No";
+        $update->save();
+
+        return redirect('/updates')->with('success', 'Update successfully added');
+    }
+
+    public function updates_edit(Request $request, $id){
+        //Find discipline record
+        $update = Update::findOrFail($id);
+        return view('dashboard.update_edit')->with('update', $update);
+    }
+
+    public function updates_update(Request $request, $id){
+        $this->validate($request, [
+            'title' => 'required',
+            'category' => 'required',
+            'message' => 'required'
+        ]);
+
+        $update = Update::findOrFail($id);
+        $update->title = $request->input('title');
+        $update->message = $request->input('message');
+        $update->category = $request->input('category');
+        $update->save();
+
+        return redirect('/updates')->with('success', 'Update successfully updated');
+    }
+
+    public function updates_delete(Request $request, $id){
+        //Find discipline record
+        $update = Update::findOrFail($id);
+        $update->delete();
+        return redirect('/updates')->with('success', 'Update successfully deleted');
+    }
+
+    public function test(){
+        $financial = Financials::findorfail(2);
+        dd($financial)->student;
+        return view('dashboard.test');
+    }
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
 }

@@ -44,7 +44,11 @@ return [
             'driver' => 'mysql',
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '3306'),
+<<<<<<< HEAD
             'database' => env('DB_DATABASE', 'rel'),
+=======
+            'database' => env('DB_DATABASE', 'student_monitoring'),
+>>>>>>> e3299ad02a3880388dee18cd590bcab572dc7c92
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
             'unix_socket' => env('DB_SOCKET', ''),
