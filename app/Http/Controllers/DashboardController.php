@@ -143,6 +143,9 @@ class DashboardController extends Controller
     }
 
     public function student_search(Request $request){
+        $this->validate($request, [
+            'search_item'=> 'required'
+        ]);
         $students = Students::all();
         $q = $request->input('search_item');
 
