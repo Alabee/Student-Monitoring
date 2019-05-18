@@ -100,15 +100,16 @@ class DashboardController extends Controller
         }
     }
 
-    public function student_edit($id)
+    public function student_edit(Request $request)
     {
+        $q = $request->input('q');
 
-        $student = Students::findOrFail($id);
+        $student = Students::findOrFail($q);
 
         return view('dashboard.student_edit')->with('student', $student);
     }
 
-    public function student_update(Request $request, $id)
+    public function student_update(Request $request)
     {
         //validate that every field is filled before submitting
         $this->validate($request,[
@@ -123,33 +124,34 @@ class DashboardController extends Controller
         ]);
 
 
-        $Students = Students::find($id);
+        $q = $request->input('reg_no');
 
-        $Students->reg_no = $request->input('reg_no');
-        $Students->student_name = $request->input('student_name');
-        $Students->gender = $request->input('gender');
-        $Students->date_of_birth = $request->input('date_of_birth');
-        $Students->date_of_admission = $request->input('date_of_admission');
-        $Students->course = $request->input('course');
-        $Students->parent_name = $request->input('parent_name');
-        $Students->parent_phone = $request->input('parent_phone');
+        $student = Students::findOrFail($q);
 
-        $Students->save();
+        $student->reg_no = $request->input('reg_no');
+        $student->student_name = $request->input('student_name');
+        $student->gender = $request->input('gender');
+        $student->date_of_birth = $request->input('date_of_birth');
+        $student->date_of_admission = $request->input('date_of_admission');
+        $student->course = $request->input('course');
+        $student->parent_name = $request->input('parent_name');
+        $student->parent_phone = $request->input('parent_phone');
+
+        $student->save();
 
         return redirect('student')->with('success', 'Student personal information updated successfully');
     }
 
     public function student_search(Request $request){
+        $students = Students::all();
+        $q = $request->input('search_item');
 
-        $Students = Students::all();
+        $student = Students::find($q);
+        if (!$student) return redirect('student')->with('students', $students)->with('error','No record found');
 
-        foreach ($Students as $student) {
-
-            if ($request->input('search-item') == $student->reg_no){
-                return view('dashboard.student_search')->with('student', $student);
-            }
+        return view('dashboard.student_search')->with('student', $student);
         }
-    }
+    
 
 
 }

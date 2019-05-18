@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-    <form onload="restrictFutureDate()" method="post" action="/student/{{$student->id}}/update">
+    <form onload="restrictFutureDate()" method="post" action="/student/update">
         {{ csrf_field() }}
         <h2 style="text-align: center">Student Information</h2>
         <hr>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="col-md-6">
                     <label for="link">Phone number</label>
-                    <input value="{{$student->parent_phone}}" pattern="[a-zA-Z]+[ ][a-zA-Z]+" title="Enter a valid name eg: John Doe" name="parent_phone" pattern="(?=.*\d).{10,}" title="Please enter valid phone number" type="text" class="form-control" id="link" placeholder="+254 712 345 678">
+                    <input value="{{$student->parent_phone}}" name="parent_phone" pattern="(?=.*\d).{10,}" title="Please enter valid phone number" type="text" class="form-control" id="link" placeholder="+254 712 345 678">
                 </div>
             </div>
             <br>
